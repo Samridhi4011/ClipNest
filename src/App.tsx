@@ -45,6 +45,10 @@ function App() {
     setItems(items.filter((item) => item.id !== id));
   }
 
+  function handleCopy(text: string) {
+    navigator.clipboard.writeText(text);
+  }
+
   return (
     <div className="app">
       <div className="container">
@@ -62,7 +66,9 @@ function App() {
 
         {items
           .filter((item) =>
-            item.text.toLowerCase().includes(search.toLowerCase())
+            item.text
+              .toLowerCase()
+              .includes(search.toLowerCase())
           )
           .map((item) => (
             <ClipboardCard
@@ -70,6 +76,7 @@ function App() {
               text={item.text}
               time={item.time}
               onDelete={() => handleDelete(item.id)}
+              onCopy={() => handleCopy(item.text)}
             />
           ))}
       </div>
