@@ -55,3 +55,25 @@
   margin-top: 8px;
   color: #9ca3af;
 }
+
+.card {
+  background: #1f2937;
+  padding: 18px;
+  border-radius: 12px;
+  margin-top: 16px;
+  transition: 0.2s;
+}
+
+.card:hover {
+  background: #2a3546;
+}
+
+.card h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.card p {
+  color: #9ca3af;
+  font-size: 14px;
+}

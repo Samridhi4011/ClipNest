@@ -1,8 +1,13 @@
-function ClipboardCard() {
+type ClipboardCardProps = {
+  text: string;
+  time: string;
+};
+
+function ClipboardCard({ text, time }: ClipboardCardProps) {
   return (
-    <div className="clipboard-card">
-      <p>npm install react-router</p>
-      <small>Copied 2 hours ago</small>
+    <div className="card">
+      <h3>{text}</h3>
+      <p>{time}</p>
     </div>
   );
 }

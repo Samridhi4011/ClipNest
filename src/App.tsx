@@ -1,8 +1,11 @@
+import { useState } from "react";
+import clipboardData from "./data/clipboardData";
 import "./App.css";
 import SearchBar from "./components/SearchBar";
 import ClipboardCard from "./components/ClipboardCard";
 
 function App() {
+  const [search, setSearch] = useState("");
   return (
     <div className="app">
       <div className="container">
@@ -12,9 +15,23 @@ function App() {
           Your smart clipboard manager.
         </p>
 
-        <SearchBar />
+        <SearchBar
+          search={search}
+          setSearch={setSearch}
+        />
+        {clipboardData
+          .filter((item) =>
+            item.text.toLowerCase().includes(search.toLowerCase())
+          )
+          .map((item) => (
+            <ClipboardCard
+              key={item.id}
+              text={item.text}
+              time={item.time}
+            />
+          ))}
+
         
-        <ClipboardCard />
       </div>
     </div>
   );
