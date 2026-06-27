@@ -21,6 +21,8 @@ function App() {
   });
 
   const [search, setSearch] = useState("");
+  const [editText, setEditText] = useState("");
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   useEffect(() => {
     localStorage.setItem(
@@ -56,6 +58,33 @@ function App() {
       )
     );
   }
+
+  function handleCancel() {
+    setEditingId(null);
+    setEditText("");
+  }
+
+  function handleEdit(id: number) {
+    const item = items.find((item) => item.id === id);
+
+    if (!item) return;
+
+    setEditingId(id);
+    setEditText(item.text);
+  }
+  function handleSave(id: number) {
+    setItems(
+      items.map((item) =>
+        item.id === id
+          ? { ...item, text: editText }
+          : item
+      )
+    );
+
+    setEditingId(null);
+    setEditText("");
+}
+
   function handleCopy(text: string) {
     navigator.clipboard.writeText(text);
   }
@@ -86,9 +115,14 @@ function App() {
               text={item.text}
               time={item.time}
               favorite={item.favorite}
+              isEditing={editingId === item.id}
+              editText={editText}
+              setEditText={setEditText}
               onFavorite={() => handleFavorite(item.id)}
               onCopy={() => handleCopy(item.text)}
               onDelete={() => handleDelete(item.id)}
+              onEdit={() => handleEdit(item.id)}
+              onSave={() => handleSave(item.id)}
             />
           ))}
       </div>
