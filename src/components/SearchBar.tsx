@@ -1,17 +1,27 @@
 type SearchBarProps = {
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
+  onAdd: () => void;
 };
 
-function SearchBar({ search, setSearch }: SearchBarProps) {
+function SearchBar({ search, setSearch, onAdd }: SearchBarProps) {
   return (
-    <input
-      type="text"
-      placeholder="🔍 Search clipboard..."
-      className="search-bar"
-      value={search}
-      onChange={(e) => setSearch(e.target.value)}
-    />
+    <div className="search-container">
+      <input
+        type="text"
+        placeholder="🔍 Search clipboard..."
+        className="search-bar"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      <button
+        className="add-button"
+        onClick={onAdd}
+      >
+        Add
+      </button>
+    </div>
   );
 }
 
