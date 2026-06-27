@@ -147,3 +147,35 @@
 .delete-btn:hover {
   color: #ef4444;
 }
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.favorite-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  color: #9ca3af;
+  transition: 0.2s;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.15);
+}
+
+.copy-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  color: #9ca3af;
+  transition: 0.2s;
+}
+
+.copy-btn:hover {
+  color: white;
+  transform: scale(1.1);
+}

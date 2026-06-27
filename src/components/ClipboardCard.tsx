@@ -1,41 +1,57 @@
-import { Trash2, Copy } from "lucide-react";
+import { Trash2, Copy, Star } from "lucide-react";
 
-type ClipboardCardProps = {
+type Props = {
   text: string;
   time: string;
-  onDelete: () => void;
+  favorite: boolean;
+  onFavorite: () => void;
   onCopy: () => void;
+  onDelete: () => void;
 };
 
 function ClipboardCard({
   text,
   time,
-  onDelete,
+  favorite,
+  onFavorite,
   onCopy,
-}: ClipboardCardProps) {
+  onDelete,
+}: Props) {
   return (
     <div className="clipboard-card">
       <div className="card-top">
-        <h2>{text}</h2>
+        <div>
+          <h2>{text}</h2>
+          <p>{time}</p>
+        </div>
 
         <div className="card-actions">
           <button
-            className="icon-btn"
+            className="favorite-btn"
+            onClick={onFavorite}
+          >
+            <Star
+              size={20}
+              fill={favorite ? "#facc15" : "none"}
+              color={favorite ? "#facc15" : "#9ca3af"}
+            />
+          </button>
+
+          <button
+            className="copy-btn"
             onClick={onCopy}
           >
             <Copy size={20} />
           </button>
 
           <button
-            className="icon-btn delete-btn"
+            className="delete-btn"
             onClick={onDelete}
           >
             <Trash2 size={20} />
           </button>
         </div>
       </div>
-
-      <p>{time}</p>
     </div>
   );
 }

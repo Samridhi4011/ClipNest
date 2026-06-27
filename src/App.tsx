@@ -8,6 +8,7 @@ type ClipboardItem = {
   id: number;
   text: string;
   time: string;
+  favorite: boolean;
 };
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
       id: Date.now(),
       text: search,
       time: "Just now",
+      favorite: false,
     };
 
     setItems([newItem, ...items]);
@@ -45,6 +47,15 @@ function App() {
     setItems(items.filter((item) => item.id !== id));
   }
 
+  function handleFavorite(id: number) {
+    setItems(
+      items.map((item) =>
+        item.id === id
+          ? { ...item, favorite: !item.favorite }
+          : item
+      )
+    );
+  }
   function handleCopy(text: string) {
     navigator.clipboard.writeText(text);
   }
@@ -66,17 +77,18 @@ function App() {
 
         {items
           .filter((item) =>
-            item.text
-              .toLowerCase()
-              .includes(search.toLowerCase())
+            item.text.toLowerCase().includes(search.toLowerCase())
           )
+          .sort((a, b) => Number(b.favorite) - Number(a.favorite))
           .map((item) => (
             <ClipboardCard
               key={item.id}
               text={item.text}
               time={item.time}
-              onDelete={() => handleDelete(item.id)}
+              favorite={item.favorite}
+              onFavorite={() => handleFavorite(item.id)}
               onCopy={() => handleCopy(item.text)}
+              onDelete={() => handleDelete(item.id)}
             />
           ))}
       </div>
