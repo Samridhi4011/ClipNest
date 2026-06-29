@@ -1,8 +1,10 @@
+import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import clipboardData from "./data/clipboardData";
 import "./App.css";
 import SearchBar from "./components/SearchBar";
 import ClipboardCard from "./components/ClipboardCard";
+
 
 type ClipboardItem = {
   id: number;
@@ -43,13 +45,20 @@ function App() {
 
     setItems([newItem, ...items]);
     setSearch("");
+    toast.success("Clipboard added!");
   }
 
   function handleDelete(id: number) {
     setItems(items.filter((item) => item.id !== id));
+
+    toast.success("Clipboard deleted!");
   }
 
   function handleFavorite(id: number) {
+    const clickedItem = items.find((item) => item.id === id);
+
+    if (!clickedItem) return;
+
     setItems(
       items.map((item) =>
         item.id === id
@@ -57,6 +66,12 @@ function App() {
           : item
       )
     );
+
+    if (clickedItem.favorite) {
+      toast("Removed from favorites ⭐");
+    } else {
+      toast.success("Added to favorites ⭐");
+    }
   }
 
   function handleCancel() {
@@ -83,10 +98,13 @@ function App() {
 
     setEditingId(null);
     setEditText("");
+    toast.success("Clipboard updated!");
 }
 
   function handleCopy(text: string) {
     navigator.clipboard.writeText(text);
+
+    toast.success("Copied to clipboard!");
   }
 
   return (
