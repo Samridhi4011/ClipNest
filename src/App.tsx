@@ -106,7 +106,11 @@ function App() {
 
     toast.success("Copied to clipboard!");
   }
-
+  const filteredItems = items
+  .filter((item) =>
+    item.text.toLowerCase().includes(search.toLowerCase())
+  )
+  .sort((a, b) => Number(b.favorite) - Number(a.favorite));
   return (
     <div className="app">
       <div className="container">
@@ -122,12 +126,14 @@ function App() {
           onAdd={handleAdd}
         />
 
-        {items
-          .filter((item) =>
-            item.text.toLowerCase().includes(search.toLowerCase())
-          )
-          .sort((a, b) => Number(b.favorite) - Number(a.favorite))
-          .map((item) => (
+        {filteredItems.length === 0 ? (
+          <div className="empty-state">
+            <h2>📋</h2>
+            <p>No clipboard items yet.</p>
+            <span>Start by typing in the search box above!</span>
+          </div>
+        ) : (
+          filteredItems.map((item) => (
             <ClipboardCard
               key={item.id}
               text={item.text}
@@ -137,12 +143,14 @@ function App() {
               editText={editText}
               setEditText={setEditText}
               onFavorite={() => handleFavorite(item.id)}
-              onCopy={() => handleCopy(item.text)}
-              onDelete={() => handleDelete(item.id)}
               onEdit={() => handleEdit(item.id)}
               onSave={() => handleSave(item.id)}
+              onCancel={handleCancel}
+              onCopy={() => handleCopy(item.text)}
+              onDelete={() => handleDelete(item.id)}
             />
-          ))}
+          ))
+        )}
       </div>
     </div>
   );

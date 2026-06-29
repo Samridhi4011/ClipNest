@@ -8,11 +8,15 @@ function SearchBar({ search, setSearch, onAdd }: SearchBarProps) {
   return (
     <div className="search-container">
       <input
-        type="text"
-        placeholder="🔍 Search clipboard..."
         className="search-bar"
+        placeholder="🔍 Search clipboard..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            onAdd();
+          }
+        }}
       />
 
       <button

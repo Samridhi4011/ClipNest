@@ -43,12 +43,13 @@
   padding: 18px;
   margin-top: 18px;
   border: 1px solid #374151;
-  transition: 0.2s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .clipboard-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
   border-color: #4b5563;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
 }
 
 .clipboard-card p {
@@ -110,17 +111,14 @@
 .delete-btn {
   background: transparent;
   border: none;
-  color: #9ca3af;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.2s;
+  color: #9ca3af;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .delete-btn:hover {
   color: #ef4444;
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 
 .card-actions {
@@ -146,6 +144,7 @@
 
 .delete-btn:hover {
   color: #ef4444;
+  transform: scale(1.15);
 }
 
 .card-actions {
@@ -157,12 +156,12 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 22px;
   color: #9ca3af;
-  transition: 0.2s;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .favorite-btn:hover {
+  color: #facc15;
   transform: scale(1.15);
 }
 
@@ -170,14 +169,13 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 22px;
   color: #9ca3af;
-  transition: 0.2s;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .copy-btn:hover {
-  color: white;
-  transform: scale(1.1);
+  color: #22c55e;
+  transform: scale(1.15);
 }
 
 .edit-input {
@@ -232,4 +230,28 @@
 .save-btn:hover {
   color: #22c55e;
   transform: scale(1.1);
+}
+
+.empty-state {
+  margin-top: 50px;
+  padding: 40px 20px;
+  text-align: center;
+  border: 2px dashed #374151;
+  border-radius: 16px;
+  color: #9ca3af;
+}
+
+.empty-state h2 {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.empty-state p {
+  font-size: 20px;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.empty-state span {
+  font-size: 15px;
 }
