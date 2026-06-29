@@ -255,3 +255,111 @@
 .empty-state span {
   font-size: 15px;
 }
+
+.copy-btn svg {
+  transition: all 0.2s ease;
+}
+
+.copy-btn:hover svg {
+  transform: scale(1.1);
+}
+
+.copy-btn svg {
+  color: #9ca3af;
+}
+
+.copy-btn:hover {
+  color: white;
+}
+
+.delete-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+}
+
+.delete-box {
+  width: 380px;
+
+  background: #1f2937;
+
+  border: 1px solid #374151;
+  border-radius: 16px;
+
+  padding: 28px;
+
+  text-align: center;
+
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.delete-box h3 {
+  color: white;
+  margin-bottom: 10px;
+}
+
+.delete-box p {
+  color: #9ca3af;
+  margin-bottom: 24px;
+}
+
+.delete-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.cancel-btn,
+.confirm-delete-btn {
+  padding: 10px 20px;
+
+  border: none;
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  transition: 0.2s;
+}
+
+.cancel-btn {
+  background: #374151;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background: #4b5563;
+}
+
+.confirm-delete-btn {
+  background: #dc2626;
+  color: white;
+}
+
+.confirm-delete-btn:hover {
+  background: #ef4444;
+}
+
+.delete-box {
+  animation: modalPop 0.2s ease;
+}
+
+@keyframes modalPop {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

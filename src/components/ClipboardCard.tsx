@@ -10,6 +10,7 @@ type Props = {
   text: string;
   time: string;
   favorite: boolean;
+  isCopied: boolean;
   onCancel: () => void;
   isEditing: boolean;
   onSave: () => void;
@@ -27,6 +28,7 @@ function ClipboardCard({
   text,
   time,
   favorite,
+  isCopied,
   isEditing,
   editText,
   onSave,
@@ -97,7 +99,11 @@ function ClipboardCard({
             className="copy-btn"
             onClick={onCopy}
           >
-            <Copy size={20} />
+            {isCopied ? (
+              <Check size={20} color="#22c55e" />
+            ) : (
+              <Copy size={20} />
+            )}
           </button>
 
           <button

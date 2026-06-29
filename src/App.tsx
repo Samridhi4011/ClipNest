@@ -24,7 +24,9 @@ function App() {
 
   const [search, setSearch] = useState("");
   const [editText, setEditText] = useState("");
+  const [copiedId, setCopiedId] = useState<number | null>(null);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
 
   useEffect(() => {
     localStorage.setItem(
@@ -32,6 +34,20 @@ function App() {
       JSON.stringify(items)
     );
   }, [items]);
+
+  useEffect(() => {
+  function handleKeyDown(e: KeyboardEvent) {
+    if (e.key === "Escape") {
+      setDeleteId(null);
+    }
+  }
+
+  window.addEventListener("keydown", handleKeyDown);
+
+  return () => {
+    window.removeEventListener("keydown", handleKeyDown);
+  };
+}, []);
 
   function handleAdd() {
     if (search.trim() === "") return;
@@ -101,8 +117,14 @@ function App() {
     toast.success("Clipboard updated!");
 }
 
-  function handleCopy(text: string) {
+  function handleCopy(id: number, text: string) {
     navigator.clipboard.writeText(text);
+
+    setCopiedId(id);
+
+    setTimeout(() => {
+      setCopiedId(null);
+    }, 2000);
 
     toast.success("Copied to clipboard!");
   }
@@ -113,6 +135,41 @@ function App() {
   .sort((a, b) => Number(b.favorite) - Number(a.favorite));
   return (
     <div className="app">
+      {deleteId !== null && (
+
+        <div 
+          className="delete-modal"
+          onClick={() => setDeleteId(null)}
+        >  
+          <div 
+            className="delete-box"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3>Delete this clipboard?</h3>
+
+            <p>This action cannot be undone.</p>
+
+            <div className="delete-buttons">
+              <button
+                className="cancel-btn"
+                onClick={() => setDeleteId(null)}
+              >
+                Cancel
+            </button>
+
+            <button
+              className="confirm-delete-btn"
+              onClick={() => {
+                handleDelete(deleteId);
+                setDeleteId(null);
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
       <div className="container">
         <h1 className="title">ClipNest</h1>
 
@@ -139,6 +196,7 @@ function App() {
               text={item.text}
               time={item.time}
               favorite={item.favorite}
+              isCopied={copiedId === item.id}
               isEditing={editingId === item.id}
               editText={editText}
               setEditText={setEditText}
@@ -146,8 +204,8 @@ function App() {
               onEdit={() => handleEdit(item.id)}
               onSave={() => handleSave(item.id)}
               onCancel={handleCancel}
-              onCopy={() => handleCopy(item.text)}
-              onDelete={() => handleDelete(item.id)}
+              onCopy={() => handleCopy(item.id, item.text)}
+              onDelete={() => setDeleteId(item.id)}
             />
           ))
         )}
