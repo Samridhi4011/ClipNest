@@ -20,8 +20,8 @@ const clipboardData = [
   {
     id: 4,
     text: "React Hooks",
-    time: "Copied last week",
-    favorite: false,
+    createdAt: Date.now() - 1000 * 60 * 5,
+    favorite: true,
   },
 ];
 

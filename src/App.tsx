@@ -4,12 +4,13 @@ import clipboardData from "./data/clipboardData";
 import "./App.css";
 import SearchBar from "./components/SearchBar";
 import ClipboardCard from "./components/ClipboardCard";
+import { formatTime } from "./utils/formatTime";
 
 
 type ClipboardItem = {
   id: number;
   text: string;
-  time: string;
+  createdAt: number;
   favorite: boolean;
 };
 
@@ -23,10 +24,19 @@ function App() {
   });
 
   const [search, setSearch] = useState("");
+  const [showWelcome, setShowWelcome] = useState(false);
   const [editText, setEditText] = useState("");
   const [copiedId, setCopiedId] = useState<number | null>(null);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [deleteId, setDeleteId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const hasVisited = localStorage.getItem("hasVisited");
+
+    if (!hasVisited) {
+      setShowWelcome(true);
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem(
@@ -55,7 +65,7 @@ function App() {
     const newItem: ClipboardItem = {
       id: Date.now(),
       text: search,
-      time: "Just now",
+      createdAt: Date.now(),
       favorite: false,
     };
 
@@ -93,6 +103,11 @@ function App() {
   function handleCancel() {
     setEditingId(null);
     setEditText("");
+  }
+
+  function handleWelcome() {
+    localStorage.setItem("hasVisited", "true");
+    setShowWelcome(false);
   }
 
   function handleEdit(id: number) {
@@ -133,28 +148,59 @@ function App() {
     item.text.toLowerCase().includes(search.toLowerCase())
   )
   .sort((a, b) => Number(b.favorite) - Number(a.favorite));
+
   return (
-    <div className="app">
-      {deleteId !== null && (
+  <div className="app">
 
-        <div 
-          className="delete-modal"
-          onClick={() => setDeleteId(null)}
-        >  
-          <div 
-            className="delete-box"
-            onClick={(e) => e.stopPropagation()}
+    {/* Welcome Popup */}
+    {showWelcome && (
+      <div className="welcome-overlay">
+        <div className="welcome-box">
+          <h1>      📋
+
+            Welcome to ClipNest</h1>
+
+          <p>
+            A modern clipboard manager designed for productivity.
+          </p>
+
+          <div className="welcome-features">
+            <div>✓ Save clipboard history</div>
+            <div>✓ Mark favorites</div>
+            <div>✓ Edit snippets</div>
+            <div>✓ Copy instantly</div>
+          </div>
+
+          <button
+            className="welcome-btn"
+            onClick={handleWelcome}
           >
-            <h3>Delete this clipboard?</h3>
+            Get Started
+          </button>
+        </div>
+      </div>
+    )}
 
-            <p>This action cannot be undone.</p>
+    {/* Delete Confirmation Modal */}
+    {deleteId !== null && (
+      <div
+        className="delete-modal"
+        onClick={() => setDeleteId(null)}
+      >
+        <div
+          className="delete-box"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <h3>Delete this clipboard?</h3>
 
-            <div className="delete-buttons">
-              <button
-                className="cancel-btn"
-                onClick={() => setDeleteId(null)}
-              >
-                Cancel
+          <p>This action cannot be undone.</p>
+
+          <div className="delete-buttons">
+            <button
+              className="cancel-btn"
+              onClick={() => setDeleteId(null)}
+            >
+              Cancel
             </button>
 
             <button
@@ -170,48 +216,54 @@ function App() {
         </div>
       </div>
     )}
-      <div className="container">
-        <h1 className="title">ClipNest</h1>
 
-        <p className="subtitle">
-          Your smart clipboard manager.
-        </p>
+    {/* Main App */}
+    <div className="container">
+      <h1 className="title">ClipNest</h1>
 
-        <SearchBar
-          search={search}
-          setSearch={setSearch}
-          onAdd={handleAdd}
-        />
+      <p className="subtitle">
+        Your smart clipboard manager.
+      </p>
 
-        {filteredItems.length === 0 ? (
-          <div className="empty-state">
-            <h2>📋</h2>
-            <p>No clipboard items yet.</p>
-            <span>Start by typing in the search box above!</span>
-          </div>
-        ) : (
-          filteredItems.map((item) => (
-            <ClipboardCard
-              key={item.id}
-              text={item.text}
-              time={item.time}
-              favorite={item.favorite}
-              isCopied={copiedId === item.id}
-              isEditing={editingId === item.id}
-              editText={editText}
-              setEditText={setEditText}
-              onFavorite={() => handleFavorite(item.id)}
-              onEdit={() => handleEdit(item.id)}
-              onSave={() => handleSave(item.id)}
-              onCancel={handleCancel}
-              onCopy={() => handleCopy(item.id, item.text)}
-              onDelete={() => setDeleteId(item.id)}
-            />
-          ))
-        )}
-      </div>
+      <SearchBar
+        search={search}
+        setSearch={setSearch}
+        onAdd={handleAdd}
+      />
+
+      {filteredItems.length === 0 ? (
+        <div className="empty-state">
+          <div className="empty-icon">📋</div>
+
+          <h2>No clipboard items yet.</h2>
+
+          <p>
+            Start by typing in the search box above!
+          </p>
+        </div>
+      ) : (
+        filteredItems.map((item) => (
+          <ClipboardCard
+            key={item.id}
+            text={item.text}
+            time={formatTime(item.createdAt)}
+            createdAt={item.createdAt}
+            favorite={item.favorite}
+            isCopied={copiedId === item.id}
+            isEditing={editingId === item.id}
+            editText={editText}
+            setEditText={setEditText}
+            onFavorite={() => handleFavorite(item.id)}
+            onEdit={() => handleEdit(item.id)}
+            onSave={() => handleSave(item.id)}
+            onCancel={handleCancel}
+            onCopy={() => handleCopy(item.id, item.text)}
+            onDelete={() => setDeleteId(item.id)}
+          />
+        ))
+      )}
     </div>
-  );
+  </div>
+);
 }
-
 export default App;

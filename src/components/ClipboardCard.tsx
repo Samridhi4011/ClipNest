@@ -9,6 +9,7 @@ import {
 type Props = {
   text: string;
   time: string;
+  createdAt: number;
   favorite: boolean;
   isCopied: boolean;
   onCancel: () => void;
@@ -27,6 +28,7 @@ type Props = {
 function ClipboardCard({
   text,
   time,
+  createdAt,
   favorite,
   isCopied,
   isEditing,
@@ -60,11 +62,18 @@ function ClipboardCard({
                         onCancel();
                     }
                 }}
-            />
+            />      
         ) : (
         <h2>{text}</h2>
     )}
-          <p>{time}</p>
+          <p
+            title={`Created on ${new Date(createdAt).toLocaleString("en-IN", {
+              dateStyle: "medium",
+              timeStyle: "short",
+            })}`}
+          >
+            {time}
+          </p>
         </div>
 
         <div className="card-actions">
