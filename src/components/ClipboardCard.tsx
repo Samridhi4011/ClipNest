@@ -64,7 +64,7 @@ function ClipboardCard({
                 }}
             />      
         ) : (
-        <h2>{text}</h2>
+        <pre className="clipboard-text">{text}</pre>
     )}
           <p
             title={`Created on ${new Date(createdAt).toLocaleString("en-IN", {

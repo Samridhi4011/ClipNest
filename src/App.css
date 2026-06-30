@@ -25,6 +25,9 @@
   flex: 1;
   width: 100%;
 
+  min-height: 56px;
+  max-height: 180px;
+
   padding: 14px 18px;
 
   border-radius: 12px;
@@ -38,6 +41,11 @@
 
   color: white;
   font-size: 16px;
+  font-family: inherit;
+  line-height: 1.5;
+
+  resize: none;
+  overflow: hidden;
 
   outline: none;
 
@@ -69,6 +77,18 @@
     transform 0.2s ease,
     box-shadow 0.2s ease,
     border-color 0.2s ease;
+}
+
+.clipboard-text {
+  margin: 0;
+
+  white-space: pre-wrap;
+  word-break: break-word;
+
+  font-family: inherit;   /* or "JetBrains Mono", monospace */
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
 }
 
 .clipboard-card:hover {
@@ -593,3 +613,4 @@
     box-shadow:0 0 0 3px rgba(255,255,255,.25);
     transform:scale(1.05);
 }
+

@@ -96,14 +96,12 @@ function App() {
 
   function handleAdd() {
     if (search.trim() === "") return;
-
     const newItem: ClipboardItem = {
       id: Date.now(),
       text: search,
       createdAt: Date.now(),
       favorite: false,
     };
-
     setItems([newItem, ...items]);
     setSearch("");
     toast.success("Clipboard added!");
