@@ -31,6 +31,8 @@ function App() {
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [showFavorites, setShowFavorites] = useState(false);
   const [selectedButton, setSelectedButton] = useState<"cancel" | "delete">("cancel");
+  const [deletedItem, setDeletedItem] = useState<ClipboardItem | null>(null);
+  const [deletedIndex, setDeletedIndex] = useState<number | null>(null);
   useEffect(() => {
     const hasVisited = localStorage.getItem("hasVisited");
 
@@ -107,12 +109,51 @@ function App() {
     toast.success("Clipboard added!");
   }
 
-  function handleDelete(id: number) {
-    setItems(items.filter((item) => item.id !== id));
+function handleDelete(id: number) {
+  const index = items.findIndex((item) => item.id === id);
 
-    toast.success("Clipboard deleted!");
-    setDeleteId(null);
+  if (index === -1) return;
+
+  const itemToDelete = items[index];
+
+  // Remove the item
+  setItems((prevItems) =>
+    prevItems.filter((item) => item.id !== id)
+  );
+
+  // Close delete modal
+  setDeleteId(null);
+
+  // Show Undo toast
+  toast(
+  (t) => (
+    <div className="undo-toast">
+      <span>🗑 Clipboard deleted</span>
+
+      <button
+        className="undo-btn"
+        onClick={() => {
+          setItems((prevItems) => {
+            const updated = [...prevItems];
+
+            updated.splice(index, 0, itemToDelete);
+
+            return updated;
+          });
+
+          toast.dismiss(t.id);
+          toast.success("Clipboard restored!");
+        }}
+      >
+        Undo
+      </button>
+    </div>
+  ),
+  {
+    duration: 5000,
   }
+);
+}
 
   function handleFavorite(id: number) {
     const clickedItem = items.find((item) => item.id === id);
