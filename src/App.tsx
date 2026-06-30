@@ -346,7 +346,10 @@ function App() {
             onSave={() => handleSave(item.id)}
             onCancel={handleCancel}
             onCopy={() => handleCopy(item.id, item.text)}
-            onDelete={() => setDeleteId(item.id)}
+            onDelete={() => {
+              setDeleteId(item.id);
+              setSelectedButton("delete");
+            }}
           />
         ))
       )}
