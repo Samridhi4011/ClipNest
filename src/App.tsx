@@ -5,7 +5,7 @@ import "./App.css";
 import SearchBar from "./components/SearchBar";
 import ClipboardCard from "./components/ClipboardCard";
 import { formatTime } from "./utils/formatTime";
-
+import logo from "./assets/logo.png";
 
 type ClipboardItem = {
   id: number;
@@ -29,7 +29,8 @@ function App() {
   const [copiedId, setCopiedId] = useState<number | null>(null);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [deleteId, setDeleteId] = useState<number | null>(null);
-
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [selectedButton, setSelectedButton] = useState<"cancel" | "delete">("cancel");
   useEffect(() => {
     const hasVisited = localStorage.getItem("hasVisited");
 
@@ -57,7 +58,41 @@ function App() {
   return () => {
     window.removeEventListener("keydown", handleKeyDown);
   };
+
 }, []);
+
+    useEffect(() => {
+  if (deleteId === null) return;
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+
+    if (e.key === "ArrowRight") {
+      setSelectedButton("delete");
+    }
+
+    if (e.key === "ArrowLeft") {
+      setSelectedButton("cancel");
+    }
+
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      if (selectedButton === "cancel") {
+        setDeleteId(null);
+      } else {
+        handleDelete(deleteId);
+        
+      }
+
+    }
+
+  };
+
+  window.addEventListener("keydown", handleKeyDown);
+
+  return () => window.removeEventListener("keydown", handleKeyDown);
+
+}, [deleteId, selectedButton]);
 
   function handleAdd() {
     if (search.trim() === "") return;
@@ -78,6 +113,7 @@ function App() {
     setItems(items.filter((item) => item.id !== id));
 
     toast.success("Clipboard deleted!");
+    setDeleteId(null);
   }
 
   function handleFavorite(id: number) {
@@ -144,10 +180,23 @@ function App() {
     toast.success("Copied to clipboard!");
   }
   const filteredItems = items
-  .filter((item) =>
-    item.text.toLowerCase().includes(search.toLowerCase())
-  )
+  .filter((item) => {
+    const matchesSearch = item.text
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchesFavorite =
+      !showFavorites || item.favorite;
+
+    return matchesSearch && matchesFavorite;
+  })
   .sort((a, b) => Number(b.favorite) - Number(a.favorite));
+
+  const favoriteCount = items.filter(
+    (item) => item.favorite
+  ).length;
+
+  const isSearching = search.trim() !== "";
 
   return (
   <div className="app">
@@ -197,18 +246,19 @@ function App() {
 
           <div className="delete-buttons">
             <button
-              className="cancel-btn"
+              className={`cancel-btn ${
+                selectedButton === "cancel" ? "active-btn" : ""
+              }`}
               onClick={() => setDeleteId(null)}
             >
               Cancel
             </button>
 
             <button
-              className="confirm-delete-btn"
-              onClick={() => {
-                handleDelete(deleteId);
-                setDeleteId(null);
-              }}
+              className={`confirm-delete-btn ${
+                selectedButton === "delete" ? "active-btn" : ""
+              }`}
+              onClick={() => handleDelete(deleteId)}
             >
               Delete
             </button>
@@ -219,26 +269,66 @@ function App() {
 
     {/* Main App */}
     <div className="container">
-      <h1 className="title">ClipNest</h1>
+      <div className="header">
+        <img
+          src={logo}
+          alt="ClipNest Logo"
+          className="logo"
+        />
 
-      <p className="subtitle">
-        Your smart clipboard manager.
-      </p>
+        <div>
+          <h1 className="title">ClipNest</h1>
+
+          <p className="subtitle">
+            Your smart clipboard manager.
+          </p>
+      </div>
+    </div>
 
       <SearchBar
         search={search}
         setSearch={setSearch}
         onAdd={handleAdd}
       />
+      <div className="filter-buttons">
+        <button
+          className={!showFavorites ? "active-filter" : ""}
+          onClick={() => setShowFavorites(false)}
+        >
+          All ({items.length})
+        </button>
 
+        <button
+          className={showFavorites ? "active-filter" : ""}
+          onClick={() => setShowFavorites(true)}
+        >
+          ★ Favorites ({favoriteCount})
+        </button>
+      </div>
       {filteredItems.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-icon">📋</div>
+          <div className="empty-icon">
+            {isSearching
+              ? "🔍"
+              : showFavorites
+              ? "⭐"
+              : "📋"}
+          </div>
 
-          <h2>No clipboard items yet.</h2>
+          <h2>
+            {isSearching
+              ? "No results found"
+              : showFavorites
+              ? "No favorite clipboard items"
+              : "No clipboard items yet."}
+          </h2>
 
           <p>
-            Start by typing in the search box above!
+            {isSearching
+              ? "Try a different keyword."
+              : showFavorites
+              ? "Mark important snippets as favorites to access them quickly."
+              : "Start by typing in the search box above!"}
           </p>
         </div>
       ) : (
