@@ -33,6 +33,9 @@ function App() {
   const [selectedButton, setSelectedButton] = useState<"cancel" | "delete">("cancel");
   const [deletedItem, setDeletedItem] = useState<ClipboardItem | null>(null);
   const [deletedIndex, setDeletedIndex] = useState<number | null>(null);
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("theme") || "dark";
+  });
   useEffect(() => {
     const hasVisited = localStorage.getItem("hasVisited");
 
@@ -48,6 +51,12 @@ function App() {
     );
   }, [items]);
 
+
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  
   useEffect(() => {
   function handleKeyDown(e: KeyboardEvent) {
     if (e.key === "Escape") {
@@ -238,7 +247,7 @@ function handleDelete(id: number) {
   const isSearching = search.trim() !== "";
 
   return (
-  <div className="app">
+  <div className={`app ${theme}`}>
 
     {/* Welcome Popup */}
     {showWelcome && (
@@ -322,8 +331,20 @@ function handleDelete(id: number) {
             Your smart clipboard manager.
           </p>
       </div>
+
+        <button
+          className="theme-btn"
+          onClick={() =>
+            setTheme(theme === "dark" ? "light" : "dark")
+          }
+        >
+          {theme === "dark" ? "☀️" : "🌙"}
+        </button>
+        
     </div>
 
+    
+    
       <SearchBar
         search={search}
         setSearch={setSearch}
@@ -375,6 +396,7 @@ function handleDelete(id: number) {
           <ClipboardCard
             key={item.id}
             text={item.text}
+            search={search}
             time={formatTime(item.createdAt)}
             createdAt={item.createdAt}
             favorite={item.favorite}

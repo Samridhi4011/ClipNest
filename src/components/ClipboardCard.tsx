@@ -10,6 +10,7 @@ type Props = {
   text: string;
   time: string;
   createdAt: number;
+  search: string;
   favorite: boolean;
   isCopied: boolean;
   onCancel: () => void;
@@ -25,8 +26,23 @@ type Props = {
   onEdit: () => void;
 };
 
+function highlightText(text: string, search: string) {
+  if (!search.trim()) return text;
+
+  const regex = new RegExp(`(${search})`, "gi");
+
+  return text.split(regex).map((part, index) =>
+    part.toLowerCase() === search.toLowerCase() ? (
+      <mark key={index}>{part}</mark>
+    ) : (
+      part
+    )
+  );
+}
+
 function ClipboardCard({
   text,
+  search,
   time,
   createdAt,
   favorite,
@@ -64,7 +80,9 @@ function ClipboardCard({
                 }}
             />      
         ) : (
-        <pre className="clipboard-text">{text}</pre>
+        <pre className="clipboard-text">
+          {highlightText(text, search)}
+        </pre>
     )}
           <p
             title={`Created on ${new Date(createdAt).toLocaleString("en-IN", {
