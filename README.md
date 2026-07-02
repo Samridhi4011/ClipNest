@@ -44,13 +44,13 @@ ClipNest is a lightweight clipboard management application designed to improve p
 
 ![Search & Read More](screenshots/03-search-read-more.png)
 
-## Delete Confirmation
-
-![Delete Confirmation](screenshots/04-delete-confirmation.png)
-
 ## Light Theme
 
-![Light Theme](screenshots/05-light-theme-home.png)
+![Light Theme](screenshots/04-light-theme-home.png)
+
+## Delete Confirmation
+
+![Delete Confirmation](screenshots/05-delete-confirmation.png)
 
 ---
 
@@ -121,6 +121,16 @@ src/
 ├── App.tsx
 └── main.tsx
 ```
+
+---
+
+## Key Highlights
+
+- Responsive design for desktop and mobile
+- Dark and Light mode support
+- Persistent clipboard history using LocalStorage
+- Fast real-time search with highlighted matches
+- Clean and intuitive user interface
 
 ---
 
