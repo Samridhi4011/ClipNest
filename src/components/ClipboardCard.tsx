@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Star,
   StarOff,
@@ -57,6 +58,14 @@ function ClipboardCard({
   onDelete,
   onEdit,
 }: Props) {
+  const [expanded, setExpanded] = useState(false);
+
+  const lines = text.split("\n");
+
+  const displayText =
+    expanded || lines.length <= 6
+      ? text
+      : lines.slice(0, 6).join("\n");
   return (
     <div className="clipboard-card">
       <div className="card-top">
@@ -80,9 +89,20 @@ function ClipboardCard({
                 }}
             />      
         ) : (
-        <pre className="clipboard-text">
-          {highlightText(text, search)}
-        </pre>
+        <>
+          <pre className="clipboard-text">
+            {highlightText(displayText, search)}
+          </pre>
+
+          {lines.length > 6 && (
+            <button
+              className="read-more-btn"
+              onClick={() => setExpanded(!expanded)}
+            >
+              {expanded ? "Show less ▲" : "Read more ▼"}
+            </button>
+          )}
+        </>
     )}
           <p
             title={`Created on ${new Date(createdAt).toLocaleString("en-IN", {

@@ -33,6 +33,7 @@ function App() {
   const [selectedButton, setSelectedButton] = useState<"cancel" | "delete">("cancel");
   const [deletedItem, setDeletedItem] = useState<ClipboardItem | null>(null);
   const [deletedIndex, setDeletedIndex] = useState<number | null>(null);
+  const [expandedId, setExpandedId] = useState<number | null>(null);
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem("theme") || "dark";
   });
@@ -56,7 +57,7 @@ function App() {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  
+
   useEffect(() => {
   function handleKeyDown(e: KeyboardEvent) {
     if (e.key === "Escape") {

@@ -202,7 +202,7 @@
 .icon-btn {
   background: transparent;
   border: none;
-  color: #6b7280;
+  color:var(--subtext);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -697,4 +697,24 @@
 
 .theme-btn:hover {
   transform: rotate(20deg) scale(1.08);
+}
+
+.read-more-btn {
+  margin-top: 8px;
+
+  background: transparent;
+  border: none;
+
+  color: #8b5cf6;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  padding: 0;
+}
+
+.read-more-btn:hover {
+  text-decoration: underline;
 }
