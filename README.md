@@ -1,75 +1,143 @@
-# React + TypeScript + Vite
+# 📋 ClipNest — Smart Clipboard Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern clipboard manager built with **React**, **TypeScript**, and **Vite** that enables users to save, organize, search, and manage frequently used text snippets efficiently.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+🔗 https://clip-nest-tan.vercel.app
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Overview
 
-## Expanding the ESLint configuration
+ClipNest is a lightweight clipboard management application designed to improve productivity by providing a clean interface for storing and organizing copied text. The application supports real-time search, favorites, editing, responsive layouts, theme switching, and persistent local storage.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Save and manage clipboard snippets
+- Real-time search with highlighted matches
+- Mark frequently used snippets as favorites
+- Edit existing clipboard entries
+- Delete unwanted snippets
+- Copy snippets back to the clipboard with a single click
+- Expand and collapse lengthy snippets using a **Read More / Show Less** option
+- Automatic relative timestamps (e.g., *2 minutes ago*)
+- Persistent storage using LocalStorage
+- Light and Dark theme support
+- Fully responsive user interface
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
 
+# Screenshots
+
+## Welcome Screen
+
+![Welcome Screen](screenshots/01-welcome-screen.png)
+
+## Dark Theme
+
+![Dark Theme](screenshots/02-dark-theme-home.png)
+
+## Search & Read More
+
+![Search & Read More](screenshots/03-search-read-more.png)
+
+## Delete Confirmation
+
+![Delete Confirmation](screenshots/04-delete-confirmation.png)
+
+## Light Theme
+
+![Light Theme](screenshots/05-light-theme-home.png)
+
+---
+
+## Technology Stack
+
+Frontend
+- React
+- TypeScript
+- Vite
+
+Styling
+- CSS
+
+Icons
+- Lucide React
+
+Storage
+- LocalStorage API
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Samridhi4011/ClipNest.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Navigate to the project directory:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+cd ClipNest
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Build the production version:
+
+```bash
+npm run build
+```
+
+---
+
+## Project Structure
 
 ```
+src/
+│
+├── assets/
+├── components/
+├── data/
+├── pages/
+├── styles/
+├── utils/
+│
+├── App.tsx
+└── main.tsx
+```
+
+---
+
+## Future Enhancements
+
+- Cloud synchronization
+- Categories and tagging
+- Global clipboard monitoring
+- Import and export clipboard history
+- Keyboard shortcuts
+- Desktop application using Electron
+- User authentication and backup
+
+---
+
+## Author
+
+**Samridhi Singh**
+
+GitHub: [Samridhi4011](https://github.com/Samridhi4011)
