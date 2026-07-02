@@ -31,9 +31,6 @@ function App() {
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [showFavorites, setShowFavorites] = useState(false);
   const [selectedButton, setSelectedButton] = useState<"cancel" | "delete">("cancel");
-  const [deletedItem, setDeletedItem] = useState<ClipboardItem | null>(null);
-  const [deletedIndex, setDeletedIndex] = useState<number | null>(null);
-  const [expandedId, setExpandedId] = useState<number | null>(null);
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem("theme") || "dark";
   });

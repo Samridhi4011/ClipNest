@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Star,
-  StarOff,
   Pencil,
   Copy,
   Trash2,
